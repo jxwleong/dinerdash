@@ -1,11 +1,9 @@
 # Source: https://stackoverflow.com/a/2532931
 
 import logging
-import logging.config
 from colorama import Fore
 import colorama
 
-from log_config import LOG_CONFIG
 colorama.init()
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
 
@@ -41,7 +39,8 @@ class ColorFormatter(logging.Formatter):
         message   = message.replace("$RESET", RESET_SEQ)\
                            .replace("$BOLD",  BOLD_SEQ)\
                            .replace("$COLOR", color)\
-                           .replace('$TIME_COLOR',  COLOR_SEQ % (30 + COLORS['MAGENTA']))
+                           .replace('$TIME_COLOR',  COLOR_SEQ % (30 + COLORS['MAGENTA']))\
+                           .replace('$WHITE', COLOR_SEQ % (30 + COLORS['WHITE']))
         for k, v in COLORS.items():
             message = message.replace("$" + k,    COLOR_SEQ % (v+30))\
                              .replace("$BG" + k,  COLOR_SEQ % (v+40))\
@@ -49,5 +48,3 @@ class ColorFormatter(logging.Formatter):
         return message + RESET_SEQ
 
 logging.ColorFormatter = ColorFormatter
-
-logging.config.dictConfig(LOG_CONFIG)

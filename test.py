@@ -1,28 +1,22 @@
 import os
+import subprocess
 import logging
 import time
-
+import logger
 import pyautogui 
 import pygetwindow as gw
 # Pillow is needed/ pip install pillow
 
+DINERDASH_EXEC_PATH = r'D:\Diner Dash\Diner Dash.exe'
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s:%(name)s:%(message)s')
-
-file_handler = logging.FileHandler('dinerdash.log')
-file_handler.setLevel(logging.WARNING)
-file_handler.setFormatter(formatter)
-
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
-
+logger.info('Opening Dinerdash...')
+subprocess.Popen(DINERDASH_EXEC_PATH)
+logger.info('Waiting 10seconds for mainmenu...')
+time.sleep(10)
+logger.info('Locating Diner Dash window...')
 dinerdash_window = gw.getWindowsWithTitle('Diner Dash')[0]
-logging.info(dinerdash_window.isActive)
-dinerdash_window.activate()
+logger.info('Is Diner Dash window active: ' + str(dinerdash_window.isActive))
+#dinerdash_window.activate()
 
 def locate_image_and_click(image_path):
     pyautogui.moveTo(pyautogui.locateCenterOnScreen(image_path))
