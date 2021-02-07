@@ -3,9 +3,10 @@ import subprocess
 import logging
 import time
 import logger
-import pyautogui 
+import pyautogui
 import pygetwindow as gw
 # Pillow is needed/ pip install pillow
+# Pip install opencv-python
 import psutil
 
 logger = logging.getLogger(__name__)
@@ -28,43 +29,45 @@ def is_process_running(process_name):
 def launch_dinerdash(process_name, exec_path):
     if not is_process_running(process_name):
         logger.info('Opening Dinerdash...')
-        _proc = subprocess.Popen(exec_path)
-        logger.info('App Executed with PID: ' + str(_proc.pid))
-        logger.info('Waiting 10seconds for mainmenu...')
-        time.sleep(10)
+        proc = subprocess.Popen(exec_path)
+        logger.info('App executed with PID: ' + str(proc.pid))
 
     else:
         logger.info('Dinerdash is already running...')
 
-launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
 
 def active_window_if_not_active(window):
     if not window.isActive:
-        logger.info(str(window.title) + 'is not active, activating now...')
+        logger.info(str(window.title) + ' is not active, activating now...')
         window.activate()
-        logger.info(str(window.title) + 'activated')
+        logger.info(str(window.title) + ' activated')
     else:
-        logger.info(str(window.title) + 'is active')
+        logger.info(str(window.title) + ' is active')
+
+def waiting_for_main_menu(image):
+    while is_image_on_screen(image, confidence=0.5) is False:
+        logger.info("Waiting for main menu...")
+        time.sleep(5)
 
 
-logger.info('Locating Diner Dash window...')
-dinerdash_window = gw.getWindowsWithTitle('Diner Dash')[0]
-active_window_if_not_active(dinerdash_window)
-
-#dinerdash_window.activate()
-
+def is_image_on_screen(image, confidence=0.7):
+    if pyautogui.locateOnScreen(image, confidence) is None:
+        return False
+    return True
 
 
-
-def locate_image_and_click(image_path):
-    logger.info('Locating ' + os.path.basename(image_path) + '...')
-    pyautogui.moveTo(pyautogui.locateCenterOnScreen(image_path))
-    logger.info('Select ' + os.path.basename(image_path) + '..')    
+def locate_image_and_click(image, iter=5):
+    while is_image_on_screen(image) is False and iter != 0:
+            logger.info('Locating ' + os.path.basename(image) + '...')
+            time.sleep(1)
+            iter -= 1
+    pyautogui.moveTo(pyautogui.locateCenterOnScreen(image))
+    logger.info(os.path.basename(image) + ' found!')    
     pyautogui.leftClick()
 
-def iterate_image_click(image_path, iterate, delay=1):
+def iterate_image_click(image, iterate, delay=1):
     for _ in range (iterate):
-        locate_image_and_click(image_path)
+        locate_image_and_click(image)
         pyautogui.leftClick()
         time.sleep(delay)
 
@@ -72,7 +75,11 @@ def write_and_enter(words):
     pyautogui.write(words)
     pyautogui.press('enter')
 
-time.sleep(1)
+launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
+logger.info('Locating Diner Dash window...')
+dinerdash_window = gw.getWindowsWithTitle('Diner Dash')[0]
+active_window_if_not_active(dinerdash_window)
+waiting_for_main_menu(r'G:\My Projects\dinerdash\img\mainmenu.png')
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
 time.sleep(1)
 locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant.png')
@@ -88,7 +95,7 @@ locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift_easy.png')
 # locate_image_and_click(r'G:\My Projects\dinerdash\img\new_game.png')
 # time.sleep(1)
 
-# iterate_image_click(image_path=r'G:\My Projects\dinerdash\img\right_arrow.png',
+# iterate_image_click(image=r'G:\My Projects\dinerdash\img\right_arrow.png',
 #                     iterate=3)
 
 #locate_image_and_click(r'G:\My Projects\dinerdash\img\2_red_ppl.png')
