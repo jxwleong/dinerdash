@@ -76,10 +76,11 @@ def write_and_enter(words):
     pyautogui.press('enter')
 
 launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
+time.sleep(3)
 logger.info('Locating Diner Dash window...')
 dinerdash_window = gw.getWindowsWithTitle('Diner Dash')[0]
 active_window_if_not_active(dinerdash_window)
-waiting_for_main_menu(r'G:\My Projects\dinerdash\img\mainmenu.png')
+waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
 time.sleep(1)
 locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant.png')
