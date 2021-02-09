@@ -28,7 +28,7 @@ def is_process_running(process_name):
 
 def launch_dinerdash(process_name, exec_path):
     if not is_process_running(process_name):
-        logger.info('Opening Dinerdash...')
+        logger.info('Executing Dinerdash...')
         proc = subprocess.Popen(exec_path)
         logger.info('App executed with PID: ' + str(proc.pid))
 
@@ -50,19 +50,18 @@ def waiting_for_main_menu(image):
         time.sleep(5)
 
 
-def is_image_on_screen(image, confidence=0.7):
+def is_image_on_screen(image, confidence=0.5):
     if pyautogui.locateOnScreen(image, confidence) is None:
         return False
     return True
 
 
-def locate_image_and_click(image, iter=5):
-    while is_image_on_screen(image) is False and iter != 0:
+def locate_image_and_click(image, iter=3):
+    while is_image_on_screen(image) is False and iter!=3:
             logger.info('Locating ' + os.path.basename(image) + '...')
             time.sleep(1)
-            iter -= 1
     pyautogui.moveTo(pyautogui.locateCenterOnScreen(image))
-    logger.info(os.path.basename(image) + ' found!')    
+    logger.info(os.path.basename(image) + ' found!')
     pyautogui.leftClick()
 
 def iterate_image_click(image, iterate, delay=1):
