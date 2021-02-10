@@ -44,6 +44,14 @@ def active_window_if_not_active(window):
     else:
         logger.info(str(window.title) + ' is active')
 
+
+def get_dinerdash_window(window_name):
+    while True:
+        try:
+            return gw.getWindowsWithTitle(window_name)[0]
+        except IndexError:
+            continue
+        
 def waiting_for_main_menu(image):
     while is_image_on_screen(image, confidence=0.5) is False:
         logger.info("Waiting for main menu...")
@@ -74,10 +82,10 @@ def write_and_enter(words):
     pyautogui.write(words)
     pyautogui.press('enter')
 
+
 launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
-time.sleep(3)
 logger.info('Locating Diner Dash window...')
-dinerdash_window = gw.getWindowsWithTitle('Diner Dash')[0]
+dinerdash_window = get_dinerdash_window('Diner Dash') 
 active_window_if_not_active(dinerdash_window)
 waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
