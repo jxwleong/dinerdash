@@ -56,7 +56,7 @@ def waiting_for_main_menu(image):
     while is_image_on_screen(image, confidence=0.5) is False:
         logger.info("Waiting for main menu...")
         time.sleep(5)
-
+    logger.info("Main menu found!")
 
 def is_image_on_screen(image, confidence=0.5):
     if pyautogui.locateOnScreen(image, confidence) is None:
@@ -64,10 +64,10 @@ def is_image_on_screen(image, confidence=0.5):
     return True
 
 
-def locate_image_and_click(image, iter=3):
-    while is_image_on_screen(image) is False and iter!=3:
-            logger.info('Locating ' + os.path.basename(image) + '...')
-            time.sleep(1)
+def locate_image_and_click(image, confidence=0.5, iter=5):
+    while is_image_on_screen(image, confidence) is False:
+        logger.info('Locating ' + os.path.basename(image) + '...')
+       # time.sleep(1)
     pyautogui.moveTo(pyautogui.locateCenterOnScreen(image))
     logger.info(os.path.basename(image) + ' found!')
     pyautogui.leftClick()
@@ -90,9 +90,10 @@ active_window_if_not_active(dinerdash_window)
 waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
 time.sleep(1)
-locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant.png')
+locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant_min.png')
 time.sleep(1)
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift_easy.png')
+locate_image_and_click(r'G:\My Projects\dinerdash\img\lets_play.png', confidence=0.8)
 # locate_image_and_click(r'G:\My Projects\dinerdash\img\flos_career.png')
 # time.sleep(1)
 # locate_image_and_click(r'G:\My Projects\dinerdash\img\new_player.png')
