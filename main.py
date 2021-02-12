@@ -13,6 +13,13 @@ logger = logging.getLogger(__name__)
 DINERDASH_EXEC_PATH = r'D:\Diner Dash\Diner Dash.exe'
 
 
+def get_process_pid(process_name):
+    for proc in psutil.process_iter():
+        if proc.name() == process_name:
+            return proc.pid
+
+
+print(get_process_pid('firefox.exe'))
 def is_process_running(process_name):
     # source: https://thispointer.com/python-check-if-a-process-is-running-by-name-and-find-its-process-id-pid/
     #Iterate over the all the running process
