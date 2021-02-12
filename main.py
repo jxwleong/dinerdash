@@ -52,11 +52,13 @@ def get_dinerdash_window(window_name):
         except IndexError:
             continue
         
+
 def waiting_for_main_menu(image):
     while is_image_on_screen(image, confidence=0.5) is False:
         logger.info("Waiting for main menu...")
         time.sleep(5)
     logger.info("Main menu found!")
+
 
 def is_image_on_screen(image, confidence=0.5):
     if pyautogui.locateOnScreen(image, confidence) is None:
@@ -72,15 +74,18 @@ def locate_image_and_click(image, confidence=0.5, iter=5):
     logger.info(os.path.basename(image) + ' found!')
     pyautogui.leftClick()
 
+
 def iterate_image_click(image, iterate, delay=1):
     for _ in range (iterate):
         locate_image_and_click(image)
         pyautogui.leftClick()
         time.sleep(delay)
 
+
 def write_and_enter(words):
     pyautogui.write(words)
     pyautogui.press('enter')
+
 
 def get_image_coordinate(path):
     try:
@@ -89,6 +94,7 @@ def get_image_coordinate(path):
         logger.error("Image not found!")
     else:
         return pyautogui.center(image_location)
+
 
 launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
 logger.info('Locating Diner Dash window...')
