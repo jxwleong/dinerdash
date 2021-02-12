@@ -82,12 +82,20 @@ def write_and_enter(words):
     pyautogui.write(words)
     pyautogui.press('enter')
 
+def get_image_coordinate(path):
+    try:
+        image_location = pyautogui.locateOnScreen(path)
+    except:
+        logger.error("Image not found!")
+    else:
+        return pyautogui.center(image_location)
 
 launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
 logger.info('Locating Diner Dash window...')
 dinerdash_window = get_dinerdash_window('Diner Dash') 
 active_window_if_not_active(dinerdash_window)
 waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
+print(get_image_coordinate(r'G:\My Projects\dinerdash\img\menu_chalkboard.png'))
 locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
 time.sleep(1)
 locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant_min.png')
