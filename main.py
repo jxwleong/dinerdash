@@ -13,6 +13,13 @@ logger = logging.getLogger(__name__)
 DINERDASH_EXEC_PATH = r'D:\Diner Dash\Diner Dash.exe'
 
 
+def get_process_pid(process_name):
+    for proc in psutil.process_iter():
+        if proc.name() == process_name:
+            return proc.pid
+
+
+print(get_process_pid('firefox.exe'))
 def is_process_running(process_name):
     # source: https://thispointer.com/python-check-if-a-process-is-running-by-name-and-find-its-process-id-pid/
     #Iterate over the all the running process
@@ -52,11 +59,13 @@ def get_dinerdash_window(window_name):
         except IndexError:
             continue
         
+
 def waiting_for_main_menu(image):
     while is_image_on_screen(image, confidence=0.5) is False:
         logger.info("Waiting for main menu...")
         time.sleep(5)
     logger.info("Main menu found!")
+
 
 def is_image_on_screen(image, confidence=0.5):
     if pyautogui.locateOnScreen(image, confidence) is None:
@@ -72,23 +81,21 @@ def locate_image_and_click(image, confidence=0.5, iter=5):
     logger.info(os.path.basename(image) + ' found!')
     pyautogui.leftClick()
 
+
 def iterate_image_click(image, iterate, delay=1):
     for _ in range (iterate):
         locate_image_and_click(image)
         pyautogui.leftClick()
         time.sleep(delay)
 
+
 def write_and_enter(words):
     pyautogui.write(words)
     pyautogui.press('enter')
 
-def get_image_coordinate(path):
-    try:
-        image_location = pyautogui.locateOnScreen(path)
-    except:
-        logger.error("Image not found!")
-    else:
-        return pyautogui.center(image_location)
+
+
+
 
 launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
 logger.info('Locating Diner Dash window...')
