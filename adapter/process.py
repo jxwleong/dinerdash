@@ -8,7 +8,7 @@ class Process:
     def __init__(self, process_exec):
         self.process_exec = process_exec
         self.process_name = os.path.basename(self.process_exec)
-        self.process_pid = self.set_pid
+        self.process_pid = self.set_pid()
     
     @property
     def is_running(self):
@@ -26,7 +26,7 @@ class Process:
     def launch(self):
         proc = subprocess.Popen(self.process_exec)
         self.process_pid = proc.pid
-
+    
     def set_pid(self):
         if self.is_running:
             self.process_pid = self.__get_pid()
