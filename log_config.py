@@ -38,7 +38,7 @@ LOG_CONFIG = {
     },
     'loggers': {
         '': { # Root
-            'level': 'WARNING',
+            'level': 'INFO',
             'handlers': ['console', 'file'],
             'propagate': False,
         },

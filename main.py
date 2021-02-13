@@ -11,7 +11,7 @@ import psutil
 
 from adapter.process import Process
 from adapter.window_handler import WindowHandler
-
+import adapter.image_handler as Imageman
 
 logger = logging.getLogger(__name__)
 DINERDASH_EXEC_PATH = r'D:\Diner Dash\Diner Dash.exe'
@@ -34,78 +34,32 @@ def __activate_window_if_not_active(window):
         logger.info(f'{window.title} window is active')
 
 
-
 def start():
     __launch_if_process_not_running(dinerdash)
     __activate_window_if_not_active(dinerdash_window)
 
 
-# endless_shift_level = {
-#     'easy' : r'img/endless_shift_easy.png',
-#     'medium': r'img/endless_shift_easy.png',
-#     'hard': r'img/endless_shift_hard.png',    
-# }
-# def play_endless_shift(level):
-# '''Expecting in Main Menu'''
+endless_shift = {
+    'menu_button': r'img/endless_shift.png',
+    'restaurant': r'img/restaurant_min.png',
+    'easy' : r'img/endless_shift_easy.png',
+    'medium': r'img/endless_shift_easy.png',
+    'hard': r'img/endless_shift_hard.png',
+    'lets_play': r'img/lets_play.png',   
+}
 
-
-def waiting_for_main_menu(image):
-    while is_image_on_screen(image, confidence=0.5) is False:
-        logger.info("Waiting for main menu...")
-        time.sleep(5)
-    logger.info("Main menu found!")
-
-
-def is_image_on_screen(image, confidence=0.5):
-    if pyautogui.locateOnScreen(image, confidence) is None:
-        return False
-    return True
-
-
-def locate_image_and_click(image, confidence=0.5, iter=5):
-    while is_image_on_screen(image, confidence) is False:
-        logger.info('Locating ' + os.path.basename(image) + '...')
-       # time.sleep(1)
-    pyautogui.moveTo(pyautogui.locateCenterOnScreen(image))
-    logger.info(os.path.basename(image) + ' found!')
-    pyautogui.leftClick()
-
-
-def iterate_image_click(image, iterate, delay=1):
-    for _ in range (iterate):
-        locate_image_and_click(image)
-        pyautogui.leftClick()
-        time.sleep(delay)
-
-
-def write_and_enter(words):
-    pyautogui.write(words)
-    pyautogui.press('enter')
-
+def play_endless_shift(level):
+    '''Expecting in Main Menu'''
+    menu_button = endless_shift.get('menu_button')
+    Imageman.locate_image_and_click(menu_button)    
+    restaurant = endless_shift.get('restaurant')
+    Imageman.locate_image_and_click(restaurant)       
+    level_image = endless_shift.get(level.lower())
+    Imageman.locate_image_and_click(level_image)
+    lets_play = endless_shift.get('lets_play')
+    Imageman.locate_image_and_click(lets_play)
 
 
 start()
-
-
-# waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
-# print(get_image_coordinate(r'G:\My Projects\dinerdash\img\menu_chalkboard.png'))
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
-# time.sleep(1)
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\restaurant_min.png')
-# time.sleep(1)
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift_easy.png')
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\lets_play.png', confidence=0.8)
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\flos_career.png')
-# time.sleep(1)
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\new_player.png')
-# #write_and_enter('Hello world!')  
-# time.sleep(1)
-# #locate_image_and_click(r'G:\My Projects\dinerdash\img\select_profile_play.png')
-
-# locate_image_and_click(r'G:\My Projects\dinerdash\img\new_game.png')
-# time.sleep(1)
-
-# iterate_image_click(image=r'G:\My Projects\dinerdash\img\right_arrow.png',
-#                     iterate=3)
-
-#locate_image_and_click(r'G:\My Projects\dinerdash\img\2_red_ppl.png')
+Imageman.wait_for_image(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
+play_endless_shift(level='easy')
