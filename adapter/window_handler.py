@@ -1,4 +1,3 @@
-import pyautogui
 import pygetwindow as gw
 
 class WindowHandler:

@@ -2,8 +2,8 @@ import os
 import sys
 import time
 
-from process import Process
-from window_handler import WindowHandler
+from adapter.process import Process
+from adapter.window_handler import WindowHandler
 
 
 dinerdash = Process(process_exec=r'D:\Diner Dash\Diner Dash.exe')
