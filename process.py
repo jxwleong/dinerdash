@@ -23,12 +23,10 @@ class Process:
                 pass
         return False
 
-    @property
     def launch(self):
         proc = subprocess.Popen(self.process_exec)
         self.process_pid = proc.pid
 
-    @property
     def set_pid(self):
         if self.is_running:
             self.process_pid = self.__get_pid()
