@@ -1,14 +1,14 @@
 import pygetwindow as gw
 
 class WindowHandler:
-    def __init__(self, window_name):
-        self.window_name = window_name
+    def __init__(self, title):
+        self.title = title
 
     @property
     def window(self):
         while True:
             try:
-                return gw.getWindowsWithTitle(self.window_name)[0]
+                return gw.getWindowsWithTitle(self.title)[0]
             except IndexError:
                 continue
 

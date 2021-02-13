@@ -6,11 +6,11 @@ from adapter.process import Process
 from adapter.window_handler import WindowHandler
 
 
-dinerdash = Process(process_exec=r'D:\Diner Dash\Diner Dash.exe')
-print(dinerdash.is_running)
-dinerdash.launch()
-
-dd_window = WindowHandler(window_name='Diner Dash')
+dinerdash = Process(executable_path=r'D:\Diner Dash\Diner Dash.exe')
+if dinerdash.is_running is False:
+    dinerdash.launch()
+print(dinerdash.pid)
+dd_window = WindowHandler(title='Diner Dash')
 print(dd_window.window)
 print(dd_window.is_active)
 

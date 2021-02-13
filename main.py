@@ -15,29 +15,38 @@ from adapter.window_handler import WindowHandler
 
 logger = logging.getLogger(__name__)
 DINERDASH_EXEC_PATH = r'D:\Diner Dash\Diner Dash.exe'
-dinerdash = Process(process_exec=DINERDASH_EXEC_PATH)
-dinerdash_window = WindowHandler(window_name='Diner Dash')
+dinerdash = Process(executable_path=DINERDASH_EXEC_PATH)
+dinerdash_window = WindowHandler(title='Diner Dash')
 
 
 def __launch_if_process_not_running(process):
     if process.is_running is False:
         process.launch()
-    logger.info(f'{process.process_name} executed with PID: {process.process_pid}')
+    logger.info(f'{process.name} executed with PID: {process.pid}')
     
 
 def __activate_window_if_not_active(window):
     if window.is_active is False:
-        logger.info(f'{window.window_name} window is not active, activating now...')
+        logger.info(f'{window.title} window is not active, activating now...')
         window.activate()
-        logger.info(f'{window.window_name} window activated')
+        logger.info(f'{window.title} window activated')
     else:
-        logger.info(f'{window.window_name} window is active')
+        logger.info(f'{window.title} window is active')
 
 
 
 def start():
     __launch_if_process_not_running(dinerdash)
     __activate_window_if_not_active(dinerdash_window)
+
+
+# endless_shift_level = {
+#     'easy' : r'img/endless_shift_easy.png',
+#     'medium': r'img/endless_shift_easy.png',
+#     'hard': r'img/endless_shift_hard.png',    
+# }
+# def play_endless_shift(level):
+# '''Expecting in Main Menu'''
 
 
 def waiting_for_main_menu(image):
@@ -77,10 +86,7 @@ def write_and_enter(words):
 
 start()
 
-# launch_dinerdash(process_name='Diner Dash.exe', exec_path=DINERDASH_EXEC_PATH)
-# logger.info('Locating Diner Dash window...')
-# dinerdash_window = get_dinerdash_window('Diner Dash') 
-# active_window_if_not_active(dinerdash_window)
+
 # waiting_for_main_menu(r'G:\My Projects\dinerdash\img\menu_chalkboard.png')
 # print(get_image_coordinate(r'G:\My Projects\dinerdash\img\menu_chalkboard.png'))
 # locate_image_and_click(r'G:\My Projects\dinerdash\img\endless_shift.png')
